@@ -1,131 +1,120 @@
-import { Item } from "../models/Item";
-import axios from "axios";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
+
+// Define Item model
+export interface Item {
+    id: number;
+    description: string;
+    price: number;
+    qty: number;
+}
 
 export const initialState: Item[] = [];
 
 const api = axios.create({
-    baseURL: "http://localhost:3000/item",
+    baseURL: "http://localhost:3000/item", // Use `10.0.2.2` for Android Emulator, `localhost` for iOS Simulator
 });
 
 // Save an Item
-export const saveItem = createAsyncThunk('item/saveItem', async (item: Item) => {
-    try {
-        const response = await api.post('/addItem', item);
-        return response.data;
-    } catch (error) {
-        console.log('error', error);
+export const saveItem = createAsyncThunk(
+    "item/saveItem",
+    async (item: Item, { rejectWithValue }) => {
+        try {
+            const response = await api.post("/addItem", item);
+            return response.data;
+        } catch (error: any) {
+            console.error("Error saving item:", error);
+            return rejectWithValue(error.response?.data || "Failed to save item");
+        }
     }
-});
+);
 
 // Delete an Item
-export const deleteItem = createAsyncThunk('item/deleteItem', async (id: string) => {
-    try {
-        const response = await api.delete(`/deleteItem/${id}`);
-        return response.data;
-    } catch (err) {
-        console.log(err);
+export const deleteItem = createAsyncThunk(
+    "item/deleteItem",
+    async (id: number, { rejectWithValue }) => {
+        try {
+            await api.delete(`/deleteItem/${id}`);
+            return id; // Return the ID so we can remove it from state
+        } catch (error: any) {
+            console.error("Error deleting item:", error);
+            return rejectWithValue(error.response?.data || "Failed to delete item");
+        }
     }
-});
+);
 
 // Update an Item
-export const updateItem = createAsyncThunk('item/updateItem', async (item: Item) => {
-    try {
-        const response = await api.put(`/updateItem/${item.id}`, item);
-        return response.data;
-    } catch (err) {
-        console.log(err);
+export const updateItem = createAsyncThunk(
+    "item/updateItem",
+    async (item: Item, { rejectWithValue }) => {
+        try {
+            const response = await api.put(`/updateItem/${item.id}`, item);
+            return response.data;
+        } catch (error: any) {
+            console.error("Error updating item:", error);
+            return rejectWithValue(error.response?.data || "Failed to update item");
+        }
     }
-});
+);
 
 // Get all Items
-export const getItems = createAsyncThunk('item/getItems', async () => {
-    try {
-        const response = await api.get('/view');
-        return response.data;
-    } catch (err) {
-        console.log(err);
+export const getItems = createAsyncThunk(
+    "item/getItems",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await api.get("/view");
+            return response.data;
+        } catch (error: any) {
+            console.error("Error fetching items:", error);
+            return rejectWithValue(error.response?.data || "Failed to fetch items");
+        }
     }
-});
+);
 
 const itemSlice = createSlice({
-    name: 'item',
+    name: "item",
     initialState,
-    reducers: {
-        addItem(state, action: PayloadAction<Item>) {
-            // Check if the item already exists by description to prevent duplicates
-            const existingItem = state.find(item => item.description === action.payload.description);
-            if (!existingItem) {
-                state.push(action.payload);
-            } else {
-                console.log("Item already exists!");
-            }
-        }
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
+            // Save Item
             .addCase(saveItem.fulfilled, (state, action) => {
-                // Avoid duplicates when adding
-                const existingItem = state.find(item => item.description === action.payload.description);
-                if (!existingItem) {
+                if (!state.some(item => item.id === action.payload.id)) {
                     state.push(action.payload);
                 }
             })
-            .addCase(saveItem.rejected, (state, action) => {
+            .addCase(saveItem.rejected, (_, action) => {
                 console.error("Failed to save item:", action.payload);
-            })
-            .addCase(saveItem.pending, (state, action) => {
-                console.error("Pending saveItem");
             });
 
+        // Delete Item
         builder
             .addCase(deleteItem.fulfilled, (state, action) => {
-                // Remove the deleted item from the state based on the id
-                return state.filter(item => item.id !== action.payload.id);
+                return state.filter(item => item.id !== action.payload);
             })
-            .addCase(deleteItem.rejected, (state, action) => {
+            .addCase(deleteItem.rejected, (_, action) => {
                 console.error("Failed to delete item:", action.payload);
-            })
-            .addCase(deleteItem.pending, (state, action) => {
-                console.log("Pending deleteItem");
             });
 
+        // Update Item
         builder
             .addCase(updateItem.fulfilled, (state, action) => {
-                const item = state.find(item => item.id === action.payload.id);
-                if (item) {
-                    item.description = action.payload.description;
-                    item.price = action.payload.price;
-                    item.qty = action.payload.qty;
-                }
+                const index = state.findIndex(item => item.id === action.payload.id);
+                if (index !== -1) state[index] = action.payload;
             })
-            .addCase(updateItem.rejected, (state, action) => {
+            .addCase(updateItem.rejected, (_, action) => {
                 console.error("Failed to update item:", action.payload);
-            })
-            .addCase(updateItem.pending, (state, action) => {
-                console.log("Pending updateItem");
             });
 
+        // Get Items
         builder
-            .addCase(getItems.fulfilled, (state, action) => {
-                // To avoid duplicates, clear the state before adding fetched items
-                state.splice(0, state.length);  // Clear existing state
-                action.payload.forEach((item: Item) => {
-                    // Add each item only if it doesn't already exist
-                    const existingItem = state.find(existing => existing.id === item.id);
-                    if (!existingItem) {
-                        state.push(item);
-                    }
-                });
+            .addCase(getItems.fulfilled, (_, action) => {
+                return action.payload; // Replace state with fetched data
             })
-            .addCase(getItems.pending, (state, action) => {
-                console.log("Pending getItems");
-            })
-            .addCase(getItems.rejected, (state, action) => {
+            .addCase(getItems.rejected, (_, action) => {
                 console.error("Failed to fetch items:", action.payload);
             });
     }
 });
 
-export const { addItem } = itemSlice.actions;
 export default itemSlice.reducer;

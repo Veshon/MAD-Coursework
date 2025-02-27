@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Button, Alert, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const API_URL = "http://localhost:3000/item"; // Replace with actual backend API URL
+const API_URL = "http://localhost:3000/item"; // Replace with actual API
 
 export default function AddItemScreen() {
     const navigation = useNavigation();
@@ -20,30 +20,30 @@ export default function AddItemScreen() {
         const newItem = { description, price: Number(price), qty: Number(qty) };
 
         try {
-            const response = await fetch(`${API_URL}/add`, {
+            const response = await fetch(`${API_URL}/addItem`, { // Ensure this matches backend route
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newItem),
             });
 
             if (response.ok) {
-                Alert.alert("Success", "Book added successfully.");
+                Alert.alert("Success", "Item added successfully.");
                 navigation.goBack(); // Navigate back after adding
             } else {
-                Alert.alert("Error", "Failed to add book.");
+                Alert.alert("Error", "Failed to add item.");
             }
         } catch (error) {
-            console.error("Error adding book:", error);
+            console.error("Error adding item:", error);
             Alert.alert("Error", "An error occurred while adding.");
         }
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Add New Book</Text>
+            <Text style={styles.title}>Add New Item</Text>
 
             <TextInput
-                placeholder="Enter Book Description"
+                placeholder="Enter Item Description"
                 value={description}
                 onChangeText={setDescription}
                 style={styles.input}
@@ -67,7 +67,7 @@ export default function AddItemScreen() {
 
             <View style={styles.buttonContainer}>
                 <Button title="Cancel" onPress={() => navigation.goBack()} color="gray" />
-                <Button title="Add Book" onPress={handleSubmit} color="blue" />
+                <Button title="Add Item" onPress={handleSubmit} color="blue" />
             </View>
         </View>
     );
@@ -99,4 +99,3 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
 });
-
