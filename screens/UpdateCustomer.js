@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const API_URL = "http://localhost:3000/customer"; // Replace with actual API URL
+const API_URL = "http://192.168.1.9:3000/customer";
 
 export default function UpdateCustomerScreen() {
     const navigation = useNavigation();
