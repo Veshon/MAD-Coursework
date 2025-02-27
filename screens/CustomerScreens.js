@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, FlatList } from 'react-native';
+import {View, Text, TextInput, Button, FlatList, SafeAreaView} from 'react-native';
 
 const API_URL = "http://localhost:3000/customer"; // Replace with actual API
 
@@ -38,6 +38,7 @@ export default function CustomerScreen() {
     };
 
     return (
+        <SafeAreaView>
         <View style={{ padding: 20 }}>
             <Text style={{ fontSize: 24 }}>Add Customer</Text>
 
@@ -74,5 +75,6 @@ export default function CustomerScreen() {
                 renderItem={({ item }) => <Text>{item.name} - {item.email}</Text>}
             />
         </View>
+        </SafeAreaView>
     );
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, FlatList, Alert } from 'react-native';
+import {View, Text, TextInput, Button, FlatList, Alert, SafeAreaView} from 'react-native';
 
 const API_URL = "https://api.example.com/employees"; // Replace with actual API
 
@@ -32,6 +32,7 @@ export default function EmployeeScreen() {
     };
 
     return (
+        <SafeAreaView>
         <View>
             <Text>Employees</Text>
             <TextInput placeholder="Name" value={name} onChangeText={setName} />
@@ -43,5 +44,6 @@ export default function EmployeeScreen() {
                 renderItem={({ item }) => <Text>{item.name} - {item.position}</Text>}
             />
         </View>
+        </SafeAreaView>
     );
 }

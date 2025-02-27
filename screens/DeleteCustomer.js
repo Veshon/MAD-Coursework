@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, TextInput, Button, Modal, Alert } from 'react-native';
+import {View, Text, TextInput, Button, Modal, Alert, SafeAreaView} from 'react-native';
 
 const API_URL = "http://localhost:3000/customer"; // Replace with actual API URL
 
@@ -27,6 +27,7 @@ export default function DeleteCustomerScreen() {
     };
 
     return (
+        <SafeAreaView>
         <View style={{ padding: 20 }}>
             <Text style={{ fontSize: 24 }}>Delete Customer</Text>
 
@@ -69,5 +70,6 @@ export default function DeleteCustomerScreen() {
                 </View>
             </Modal>
         </View>
+        </SafeAreaView>
     );
 }

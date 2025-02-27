@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import CustomerScreen from '../screens/CustomerScreens';
-import BookScreen from '../screens/BookScreen';
+import BookScreen from '../screens/Books/BookScreen';
 import EmployeeScreen from '../screens/EmployeeScreen';
 import DeleteCustomerScreen from "../screens/DeleteCustomer";
 import UpdateCustomerScreen from "../screens/UpdateCustomer";
