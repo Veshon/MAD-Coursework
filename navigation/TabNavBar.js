@@ -8,6 +8,7 @@ import DeleteCustomerScreen from "../screens/DeleteCustomer";
 import UpdateCustomerScreen from "../screens/UpdateCustomer";
 import DeleteItemScreen, {DeleteItem} from "../screens/Books/DeleteBook";
 import {Text} from "react-native";
+import UpdateItemScreen from "../screens/Books/UpdateItem";
 
 const Tab = createBottomTabNavigator();
 
@@ -112,6 +113,27 @@ export default function TabNavigator() {
                                 }}
                             >
                                 {"Delete\nBook"}
+                            </Text>
+                        ),
+                        tabBarIcon: ({ color, size }) => (
+                            <Ionicons name="book" size={size} color={color} />
+                        ),
+                    }}
+                />
+
+                <Tab.Screen
+                    name="Update Book"
+                    component={UpdateItemScreen}
+                    options={{
+                        tabBarLabel: ({ color }) => (
+                            <Text
+                                style={{
+                                    color: color,
+                                    fontSize: 10, // Reduced font size to 10
+                                    textAlign: 'center',
+                                }}
+                            >
+                                {"Update\nBook"}
                             </Text>
                         ),
                         tabBarIcon: ({ color, size }) => (
