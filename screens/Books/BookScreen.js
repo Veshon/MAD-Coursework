@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, Alert, StyleSheet } from "react-native";
+import {
+    View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, SafeAreaView, ScrollView
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const API_URL = "http://localhost:3000/item"; // Replace with actual API
@@ -20,7 +22,7 @@ export default function AddItemScreen() {
         const newItem = { description, price: Number(price), qty: Number(qty) };
 
         try {
-            const response = await fetch(`${API_URL}/addItem`, { // Ensure this matches backend route
+            const response = await fetch(`${API_URL}/addItem`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newItem),
@@ -28,7 +30,7 @@ export default function AddItemScreen() {
 
             if (response.ok) {
                 Alert.alert("Success", "Item added successfully.");
-                navigation.goBack(); // Navigate back after adding
+                navigation.goBack();
             } else {
                 Alert.alert("Error", "Failed to add item.");
             }
@@ -39,63 +41,110 @@ export default function AddItemScreen() {
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Add New Item</Text>
+        <SafeAreaView style={styles.safeContainer}>
+            <ScrollView contentContainerStyle={styles.scrollView}>
+                <View style={styles.card}>
+                    <Text style={styles.title}>Add New Item</Text>
 
-            <TextInput
-                placeholder="Enter Item Description"
-                value={description}
-                onChangeText={setDescription}
-                style={styles.input}
-            />
+                    <TextInput
+                        placeholder="Enter Item Description"
+                        value={description}
+                        onChangeText={setDescription}
+                        style={styles.input}
+                    />
 
-            <TextInput
-                placeholder="Enter Price ($)"
-                value={price}
-                onChangeText={setPrice}
-                style={styles.input}
-                keyboardType="numeric"
-            />
+                    <TextInput
+                        placeholder="Enter Price ($)"
+                        value={price}
+                        onChangeText={setPrice}
+                        style={styles.input}
+                        keyboardType="numeric"
+                    />
 
-            <TextInput
-                placeholder="Enter Quantity"
-                value={qty}
-                onChangeText={setQty}
-                style={styles.input}
-                keyboardType="numeric"
-            />
+                    <TextInput
+                        placeholder="Enter Quantity"
+                        value={qty}
+                        onChangeText={setQty}
+                        style={styles.input}
+                        keyboardType="numeric"
+                    />
 
-            <View style={styles.buttonContainer}>
-                <Button title="Cancel" onPress={() => navigation.goBack()} color="gray" />
-                <Button title="Add Item" onPress={handleSubmit} color="blue" />
-            </View>
-        </View>
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.goBack()}>
+                            <Text style={styles.buttonText}>Cancel</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.addButton} onPress={handleSubmit}>
+                            <Text style={styles.buttonText}>Add Item</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
 // Styles for React Native components
 const styles = StyleSheet.create({
-    container: {
+    safeContainer: {
         flex: 1,
-        padding: 20,
+        backgroundColor: "#f5f5f5",
+    },
+    scrollView: {
+        flexGrow: 1,
+        justifyContent: "center",
+        paddingHorizontal: 20,
+    },
+    card: {
         backgroundColor: "white",
+        padding: 20,
+        borderRadius: 10,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        elevation: 5, // Adds shadow for Android
     },
     title: {
-        fontSize: 24,
+        fontSize: 26,
         fontWeight: "bold",
-        marginBottom: 10,
+        marginBottom: 20,
+        textAlign: "center",
+        color: "#333",
     },
     input: {
-        height: 40,
-        borderColor: "gray",
+        height: 50,
+        borderColor: "#ddd",
         borderWidth: 1,
-        marginBottom: 10,
-        paddingLeft: 8,
-        borderRadius: 5,
+        marginBottom: 15,
+        paddingHorizontal: 12,
+        borderRadius: 8,
+        backgroundColor: "#fff",
+        fontSize: 16,
     },
     buttonContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
-        marginTop: 10,
+        marginTop: 20,
+    },
+    cancelButton: {
+        flex: 1,
+        backgroundColor: "#d9534f",
+        padding: 12,
+        borderRadius: 8,
+        alignItems: "center",
+        marginRight: 10,
+    },
+    addButton: {
+        flex: 1,
+        backgroundColor: "#0275d8",
+        padding: 12,
+        borderRadius: 8,
+        alignItems: "center",
+    },
+    buttonText: {
+        color: "#fff",
+        fontSize: 16,
+        fontWeight: "bold",
     },
 });
+

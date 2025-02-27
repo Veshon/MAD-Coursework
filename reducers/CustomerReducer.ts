@@ -11,7 +11,7 @@ export interface Customer {
 export const initialState: Customer[] = [];
 
 const api = axios.create({
-    baseURL: "http://localhost:3000/customer", // Adjust the base URL if necessary
+    baseURL: "http://192.168.1.9:3000/customer", // Updated to match local network IP
 });
 
 // Save customer action (Add customer)
@@ -34,7 +34,7 @@ export const deleteCustomer = createAsyncThunk(
     async (email: string) => {
         try {
             const response = await api.delete(`/delete/${email}`);
-            return email;  // return the email for removing the customer from state
+            return email; // Return the email for removing the customer from state
         } catch (err) {
             console.log("Error deleting customer", err);
             throw err;
