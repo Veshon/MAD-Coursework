@@ -29,13 +29,13 @@ export default function AddItemScreen() {
             });
 
             if (response.ok) {
-                Alert.alert("Success", "Item added successfully.");
+                Alert.alert("Success", "Book added successfully.");
                 navigation.goBack();
             } else {
-                Alert.alert("Error", "Failed to add item.");
+                Alert.alert("Error", "Failed to add Book.");
             }
         } catch (error) {
-            console.error("Error adding item:", error);
+            console.error("Error adding Book:", error);
             Alert.alert("Error", "An error occurred while adding.");
         }
     };
@@ -44,10 +44,10 @@ export default function AddItemScreen() {
         <SafeAreaView style={styles.safeContainer}>
             <ScrollView contentContainerStyle={styles.scrollView}>
                 <View style={styles.card}>
-                    <Text style={styles.title}>Add New Item</Text>
+                    <Text style={styles.title}>Add New Book</Text>
 
                     <TextInput
-                        placeholder="Enter Item Description"
+                        placeholder="Enter Book Description"
                         value={description}
                         onChangeText={setDescription}
                         style={styles.input}
@@ -74,7 +74,7 @@ export default function AddItemScreen() {
                             <Text style={styles.buttonText}>Cancel</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.addButton} onPress={handleSubmit}>
-                            <Text style={styles.buttonText}>Add Item</Text>
+                            <Text style={styles.buttonText}>Add Book</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

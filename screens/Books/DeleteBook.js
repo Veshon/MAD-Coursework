@@ -27,10 +27,10 @@ export default function DeleteItemScreen() {
         });
 
         if (response.ok) {
-            Alert.alert("Success", "Item deleted successfully.");
+            Alert.alert("Success", "Book deleted successfully.");
             setDescription(""); // Clear the input field
         } else {
-            Alert.alert("Error", "Failed to delete item.");
+            Alert.alert("Error", "Failed to delete Book.");
         }
         setShowModal(false);
     };
@@ -39,17 +39,17 @@ export default function DeleteItemScreen() {
         <SafeAreaView style={styles.safeContainer}>
             <View style={styles.centerContainer}>
                 <View style={styles.card}>
-                    <Text style={styles.title}>Delete Item</Text>
+                    <Text style={styles.title}>Delete Book</Text>
 
                     <TextInput
-                        placeholder="Enter Item Description"
+                        placeholder="Enter Book Description"
                         value={description}
                         onChangeText={setDescription}
                         style={styles.input}
                     />
 
                     <TouchableOpacity style={styles.deleteButton} onPress={() => setShowModal(true)}>
-                        <Text style={styles.buttonText}>Delete Item</Text>
+                        <Text style={styles.buttonText}>Delete Book</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -63,7 +63,7 @@ export default function DeleteItemScreen() {
             >
                 <View style={styles.modalBackground}>
                     <View style={styles.modalContainer}>
-                        <Text style={styles.modalText}>Are you sure you want to delete this item?</Text>
+                        <Text style={styles.modalText}>Are you sure you want to delete this Book?</Text>
 
                         <View style={styles.modalButtons}>
                             <TouchableOpacity style={styles.cancelButton} onPress={() => setShowModal(false)}>
