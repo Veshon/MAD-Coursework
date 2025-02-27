@@ -95,6 +95,7 @@ export default function CustomerScreen() {
                         <View style={styles.customerItem}>
                             <Text style={styles.customerText}>{item.name}</Text>
                             <Text style={styles.customerSubText}>{item.email}</Text>
+                            <Text style={styles.customerSubText}>{item.phone}</Text>
                         </View>
                     )}
                 />
