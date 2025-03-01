@@ -8,10 +8,11 @@ import {
     SafeAreaView,
     TouchableOpacity,
     StyleSheet,
+    ImageBackground,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const API_URL = "http://192.168.1.9:3000/customer";
+const API_URL = "http://172.20.10.2:3000/customer";
 
 export default function UpdateCustomerScreen() {
     const navigation = useNavigation();
@@ -50,79 +51,85 @@ export default function UpdateCustomerScreen() {
 
     return (
         <SafeAreaView style={styles.safeContainer}>
-            <View style={styles.centerContainer}>
-                <View style={styles.card}>
-                    <Text style={styles.title}>Update Customer</Text>
-
-                    <TextInput
-                        placeholder="Enter Customer Name"
-                        value={name}
-                        onChangeText={setName}
-                        style={styles.input}
-                    />
-                    <TextInput
-                        placeholder="Enter Customer Email"
-                        value={email}
-                        onChangeText={setEmail}
-                        style={styles.input}
-                        keyboardType="email-address"
-                    />
-                    <TextInput
-                        placeholder="Enter Phone Number"
-                        value={phone}
-                        onChangeText={setPhone}
-                        style={styles.input}
-                        keyboardType="phone-pad"
-                    />
-
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity
-                            style={[styles.button, styles.cancelButton]}
-                            onPress={() => navigation.goBack()}
-                        >
-                            <Text style={styles.buttonText}>Cancel</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={[styles.button, styles.updateButton]}
-                            onPress={() => setShowModal(true)}
-                        >
-                            <Text style={styles.buttonText}>Update</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </View>
-
-            {/* Confirmation Modal */}
-            <Modal
-                visible={showModal}
-                animationType="slide"
-                transparent={true}
-                onRequestClose={() => setShowModal(false)}
+            {/* Add Background Image here */}
+            <ImageBackground
+                source={{ uri: 'https://plus.unsplash.com/premium_photo-1706061121923-e2aef3d28939?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }}
+                style={styles.background}
             >
-                <View style={styles.modalOverlay}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Confirm Update</Text>
-                        <Text style={styles.modalText}>
-                            Are you sure you want to update this customer?
-                        </Text>
+                <View style={styles.centerContainer}>
+                    <View style={styles.card}>
+                        <Text style={styles.title}>Update Customer</Text>
+
+                        <TextInput
+                            placeholder="Enter Customer Name"
+                            value={name}
+                            onChangeText={setName}
+                            style={styles.input}
+                        />
+                        <TextInput
+                            placeholder="Enter Customer Email"
+                            value={email}
+                            onChangeText={setEmail}
+                            style={styles.input}
+                            keyboardType="email-address"
+                        />
+                        <TextInput
+                            placeholder="Enter Phone Number"
+                            value={phone}
+                            onChangeText={setPhone}
+                            style={styles.input}
+                            keyboardType="phone-pad"
+                        />
 
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity
                                 style={[styles.button, styles.cancelButton]}
-                                onPress={() => setShowModal(false)}
+                                onPress={() => navigation.goBack()}
                             >
                                 <Text style={styles.buttonText}>Cancel</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.button, styles.updateButton]}
-                                onPress={handleUpdate}
+                                onPress={() => setShowModal(true)}
                             >
                                 <Text style={styles.buttonText}>Update</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                 </View>
-            </Modal>
+
+                {/* Confirmation Modal */}
+                <Modal
+                    visible={showModal}
+                    animationType="slide"
+                    transparent={true}
+                    onRequestClose={() => setShowModal(false)}
+                >
+                    <View style={styles.modalOverlay}>
+                        <View style={styles.modalContent}>
+                            <Text style={styles.modalTitle}>Confirm Update</Text>
+                            <Text style={styles.modalText}>
+                                Are you sure you want to update this customer?
+                            </Text>
+
+                            <View style={styles.buttonContainer}>
+                                <TouchableOpacity
+                                    style={[styles.button, styles.cancelButton]}
+                                    onPress={() => setShowModal(false)}
+                                >
+                                    <Text style={styles.buttonText}>Cancel</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={[styles.button, styles.updateButton]}
+                                    onPress={handleUpdate}
+                                >
+                                    <Text style={styles.buttonText}>Update</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+            </ImageBackground>
         </SafeAreaView>
     );
 }
@@ -131,7 +138,10 @@ export default function UpdateCustomerScreen() {
 const styles = StyleSheet.create({
     safeContainer: {
         flex: 1,
-        backgroundColor: "#f5f5f5",
+    },
+    background: {
+        flex: 1,
+        justifyContent: "center",
     },
     centerContainer: {
         flex: 1,
@@ -139,7 +149,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     card: {
-        backgroundColor: "white",
+        backgroundColor: "rgba(255, 255, 255, 0.95)",
         padding: 20,
         borderRadius: 12,
         width: "85%",
@@ -218,3 +228,4 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
 });
+

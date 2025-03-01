@@ -4,7 +4,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const API_URL = "http://localhost:3000/item"; // Replace with actual API
+const API_URL = "http://172.20.10.2:3000/item"; // Replace with actual API
 
 export default function AddItemScreen() {
     const navigation = useNavigation();
