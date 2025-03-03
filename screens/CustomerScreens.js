@@ -12,7 +12,7 @@ import {
     Image
 } from "react-native";
 
-const API_URL = "http://192.168.1.9:3000/customer";
+const API_URL = "http://172.20.10.2:3000/customer";
 
 export default function CustomerScreen() {
     const [customers, setCustomers] = useState([]);
@@ -62,7 +62,7 @@ export default function CustomerScreen() {
                 <ScrollView contentContainerStyle={styles.scrollView}>
                     {/* Header Section */}
                     <View style={styles.header}>
-                        <Image source={{ uri: 'https://img.freepik.com/free-vector/gradient-bookstore-logo_23-2149332421.jpg?t=st=1740800376~exp=1740803976~hmac=ff98d272c2f6b55b2c44892f36b5df4b0a9e4ae2ca06b336628d7afb0272126d&w=1480' }} style={styles.logo} />
+                        <Image source={{ uri: 'https://media.istockphoto.com/id/1500162779/vector/simple-bird-design-illustration-vector.jpg?s=1024x1024&w=is&k=20&c=sLoMv1jAlwsVekRyEIPD0_X03XIApOZ-OEACNYroA08=' }} style={styles.logo} />
                         <Text style={styles.headerText}>Customer Management</Text>
                     </View>
 

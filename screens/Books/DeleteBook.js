@@ -18,7 +18,7 @@ export default function DeleteItemScreen() {
 
     const handleDelete = async () => {
         if (!description) {
-            Alert.alert("Error", "Please provide an item description.");
+            Alert.alert("Error", "Please provide a book description.");
             return;
         }
 
